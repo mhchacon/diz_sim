@@ -1,0 +1,135 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #ffcdd2, #f8bbd0);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.85);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.heart-icon {
+    font-size: 80px;
+    margin-bottom: 20px;
+    animation: pulse 1.5s infinite;
+}
+
+h1 {
+    color: #e91e63;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+.buttons {
+    display: flex;
+    gap: 20px;
+}
+
+.btn {
+    padding: 12px 30px;
+    border-radius: 50px;
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.yes-btn {
+    background-color: #e91e63;
+    color: white;
+}
+
+.yes-btn:hover {
+    background-color: #d81b60;
+    transform: scale(1.05);
+}
+
+.no-btn {
+    background-color: white;
+    color: #e91e63;
+    border: 2px solid #f8bbd0;
+}
+
+.no-btn:hover {
+    border-color: #e91e63;
+}
+
+.result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+.pixel-heart-container {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 5px;
+    margin-top: 20px;
+}
+
+.pixel {
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+}
+
+.pixel.active {
+    background-color: #e91e63;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 500px) {
+    .pixel {
+        width: 20px;
+        height: 20px;
+    }
+    
+    h1 {
+        font-size: 24px;
+    }
+    
+    .heart-icon {
+        font-size: 60px;
+    }
+}
