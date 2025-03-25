@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const proposal = document.getElementById('proposal');
     const result = document.getElementById('result');
     const pixelHeart = document.getElementById('pixelHeart');
+    const container = document.querySelector('.container');
     
     // Heart pattern (1 = pixel, 0 = no pixel)
     const heartPattern = [
@@ -18,24 +19,69 @@ document.addEventListener('DOMContentLoaded', function() {
         [0, 0, 0, 0, 1, 1, 0, 0, 0, 0]
     ];
     
-    // Make the "No" button run away
+    // Crie um contêiner específico para o botão "Não"
+    const buttonContainer = document.createElement('div');
+    buttonContainer.id = 'noButtonContainer';
+    buttonContainer.style.position = 'fixed';
+    buttonContainer.style.zIndex = '1000';
+    buttonContainer.style.top = '0';
+    buttonContainer.style.left = '0';
+    buttonContainer.style.width = '100%';
+    buttonContainer.style.height = '100%';
+    buttonContainer.style.pointerEvents = 'none'; // Permite clicar através do contêiner
+    document.body.appendChild(buttonContainer);
+    
+    // Mova o botão "Não" para o novo contêiner
+    buttonContainer.appendChild(noButton);
+    noButton.style.position = 'absolute';
+    noButton.style.pointerEvents = 'auto'; // Permite interagir com o botão
+    
+    // Posicione o botão inicialmente
+    positionNoButton();
+    
+    // Adicione o evento de mouseover
     noButton.addEventListener('mouseover', function() {
-        // Calculate random position within the viewport
-        const maxX = window.innerWidth - noButton.offsetWidth;
-        const maxY = window.innerHeight - noButton.offsetHeight;
+        positionNoButton();
+    });
+    
+    // Adicione um evento de redimensionamento da janela
+    window.addEventListener('resize', function() {
+        positionNoButton();
+    });
+    
+    function positionNoButton() {
+        // Obtenha as dimensões da janela visível
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
         
-        const randomX = Math.floor(Math.random() * maxX);
-        const randomY = Math.floor(Math.random() * maxY);
+        // Obtenha as dimensões do botão
+        const buttonWidth = noButton.offsetWidth;
+        const buttonHeight = noButton.offsetHeight;
         
-        noButton.style.position = 'fixed';
+        // Defina uma margem de segurança
+        const safeMargin = 50;
+        
+        // Calcule os limites seguros
+        const maxX = viewportWidth - buttonWidth - safeMargin;
+        const maxY = viewportHeight - buttonHeight - safeMargin;
+        
+        // Gere uma posição aleatória dentro dos limites seguros
+        const randomX = Math.floor(Math.random() * (maxX - safeMargin)) + safeMargin;
+        const randomY = Math.floor(Math.random() * (maxY - safeMargin)) + safeMargin;
+        
+        // Posicione o botão
         noButton.style.left = randomX + 'px';
         noButton.style.top = randomY + 'px';
-    });
+        
+        // Verifique se o botão está visível
+        console.log(`Botão posicionado em: X=${randomX}, Y=${randomY}, Limites: maxX=${maxX}, maxY=${maxY}`);
+    }
     
     // Handle "Yes" button click
     yesButton.addEventListener('click', function() {
         proposal.classList.add('hidden');
         result.classList.remove('hidden');
+        buttonContainer.style.display = 'none'; // Esconda o contêiner do botão "Não"
         
         // Create pixel heart
         createPixelHeart();
