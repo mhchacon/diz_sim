@@ -3,12 +3,487 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lindinha</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Jornada do Amor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        html, body {
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ffcdd2, #f8bbd0);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            z-index: 1;
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .heart-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite;
+        }
+
+        h1 {
+            color: #e91e63;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        h2 {
+            color: #e91e63;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 50px;
+            border: none;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .yes-btn {
+            background-color: #e91e63;
+            color: white;
+        }
+
+        .yes-btn:hover {
+            background-color: #d81b60;
+            transform: scale(1.05);
+        }
+
+        .no-btn {
+            background-color: white;
+            color: #e91e63;
+            border: 2px solid #f8bbd0;
+        }
+
+        .no-btn:hover {
+            border-color: #e91e63;
+        }
+
+        .result {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .pixel-heart-container {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 5px;
+            margin-top: 20px;
+        }
+
+        .pixel {
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+        }
+
+        .pixel.active {
+            background-color: #e91e63;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Estilos para o Labirinto */
+        #maze-game {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        #maze {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            grid-template-rows: repeat(10, 1fr);
+            gap: 2px;
+            margin-bottom: 20px;
+        }
+
+        .maze-cell {
+            width: 100%;
+            aspect-ratio: 1;
+            background-color: white;
+            border-radius: 4px;
+        }
+
+        .maze-wall {
+            background-color: #d81b60;
+        }
+
+        .maze-player {
+            background-color: #9c27b0;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .maze-goal {
+            background-color: #4caf50;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .maze-instructions {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #e91e63;
+        }
+
+        /* Estilos para o Jogo da Velha */
+        #tic-tac-toe {
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .ttt-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .ttt-cell {
+            background-color: white;
+            aspect-ratio: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            width: 80px;
+            height: 80px;
+        }
+
+        .ttt-cell:hover {
+            background-color: #ffebee;
+        }
+
+        .ttt-heart {
+            color: #e91e63;
+        }
+
+        .ttt-x {
+            color: #9e9e9e;
+        }
+
+        .ttt-message {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 24px;
+            color: #e91e63;
+            font-weight: bold;
+        }
+
+        .next-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 30px;
+            background-color: #e91e63;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .next-btn:hover {
+            background-color: #d81b60;
+            transform: scale(1.05);
+        }
+
+        /* Estilos para o Calendário */
+        #calendar-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .calendar {
+            width: 100%;
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .calendar-month {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e91e63;
+            text-align: center;
+        }
+
+        .calendar-year {
+            font-size: 18px;
+            color: #9e9e9e;
+            margin-left: 10px;
+        }
+
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .weekday {
+            text-align: center;
+            font-weight: bold;
+            color: #e91e63;
+            font-size: 14px;
+        }
+
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .day {
+            aspect-ratio: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            border-radius: 50%;
+            cursor: default;
+            transition: all 0.3s ease;
+        }
+
+        .day.current-month {
+            color: #333;
+        }
+
+        .day.other-month {
+            color: #ccc;
+        }
+
+        .day.special-day {
+            background-color: #e91e63;
+            color: white;
+            font-weight: bold;
+            position: relative;
+            animation: pulse 1.5s infinite;
+        }
+
+        .day.special-day::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border: 2px solid #e91e63;
+            border-radius: 50%;
+            animation: expand 1.5s infinite;
+        }
+
+        .calendar-message {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 20px;
+            color: #e91e63;
+            font-weight: bold;
+            animation: fadeIn 2s;
+        }
+
+        .heart-decoration {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .heart-decoration span {
+            font-size: 24px;
+            margin: 0 5px;
+            animation: pulse 1.5s infinite;
+        }
+
+        .heart-decoration span:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .heart-decoration span:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes expand {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.3);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes highlight {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(233, 30, 99, 0.7);
+            }
+            70% {
+                transform: scale(1.1);
+                box-shadow: 0 0 0 10px rgba(233, 30, 99, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(233, 30, 99, 0);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .pixel {
+                width: 20px;
+                height: 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .heart-icon {
+                font-size: 60px;
+            }
+
+            .maze-cell {
+                width: 100%;
+            }
+
+            .ttt-cell {
+                font-size: 30px;
+                width: 60px;
+                height: 60px;
+            }
+
+            .calendar-month {
+                font-size: 20px;
+            }
+
+            .weekday {
+                font-size: 12px;
+            }
+
+            .day {
+                font-size: 14px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <div id="proposal" class="card">
+        <!-- Jogo 1: Labirinto -->
+        <div id="maze-game" class="card">
+            <h1>Encontre o Caminho para o Meu Coração</h1>
+            <p class="maze-instructions">Use as setas do teclado para mover o coração roxo até o coração verde</p>
+            <div id="maze"></div>
+            <div id="maze-message" class="hidden">
+                <h2>Que bom que, no meio de tudo que poderia ter acontecido, a gente se encontrou 💚💜</h2>
+                <button id="maze-next-btn" class="next-btn">Próximo Desafio</button>
+            </div>
+        </div>
+
+        <!-- Jogo 2: Jogo da Velha -->
+        <div id="tic-tac-toe" class="card hidden">
+            <h1>Jogo da Velha</h1>
+            <div id="ttt-board" class="ttt-board"></div>
+            <div id="ttt-message" class="hidden">
+                <h2>Você ganhou meu coração ❤️</h2>
+                <button id="ttt-next-btn" class="next-btn">Próximo Passo</button>
+            </div>
+        </div>
+
+        <!-- Jogo 3: Pedido de Namoro -->
+        <div id="proposal" class="card hidden">
             <div class="heart-icon">❤️</div>
             <h1 id="question">Aceita ser minha namorada?</h1>
             <div class="buttons">
@@ -17,12 +492,549 @@
             </div>
         </div>
         
+        <!-- Resultado do Pedido de Namoro -->
         <div id="result" class="result hidden">
             <h1 id="answer">Nos duas, sempre! 💚💜</h1>
             <div id="pixelHeart" class="pixel-heart-container"></div>
+            <button id="heart-next-btn" class="next-btn" style="margin-top: 30px;">Continuar</button>
+        </div>
+
+        <!-- Calendário -->
+        <div id="calendar-container" class="card hidden">
+            <h1>Nossa Data especial</h1>
+            <div class="calendar">
+                <div class="calendar-header">
+                    <div class="calendar-month">Março <span class="calendar-year">2025</span></div>
+                </div>
+                <div class="calendar-weekdays">
+                    <div class="weekday">D</div>
+                    <div class="weekday">S</div>
+                    <div class="weekday">T</div>
+                    <div class="weekday">Q</div>
+                    <div class="weekday">Q</div>
+                    <div class="weekday">S</div>
+                    <div class="weekday">S</div>
+                </div>
+                <div class="calendar-days" id="calendar-days">
+                    <!-- Os dias serão preenchidos via JavaScript -->
+                </div>
+            </div>
+            <div class="calendar-message" id="calendar-message"></div>
+            <div class="heart-decoration">
+                <span>💚</span>
+                <span>💜</span>
+            </div>
         </div>
     </div>
     
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos comuns
+            const mazeGame = document.getElementById('maze-game');
+            const ticTacToe = document.getElementById('tic-tac-toe');
+            const proposal = document.getElementById('proposal');
+            const result = document.getElementById('result');
+            const calendarContainer = document.getElementById('calendar-container');
+            
+            // Botões de navegação
+            const mazeNextBtn = document.getElementById('maze-next-btn');
+            const tttNextBtn = document.getElementById('ttt-next-btn');
+            const heartNextBtn = document.getElementById('heart-next-btn');
+            
+            // Botões do pedido de namoro
+            const noButton = document.getElementById('noButton');
+            const yesButton = document.getElementById('yesButton');
+            const pixelHeart = document.getElementById('pixelHeart');
+            
+            // Mensagens
+            const mazeMessage = document.getElementById('maze-message');
+            const tttMessage = document.getElementById('ttt-message');
+            const calendarMessage = document.getElementById('calendar-message');
+            
+            // Configuração do labirinto
+            const maze = document.getElementById('maze');
+            let playerPosition = { x: 0, y: 0 };
+            let goalPosition = { x: 9, y: 9 };
+            
+            // Matriz do labirinto (0 = caminho, 1 = parede)
+            const mazeLayout = [
+                [0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+                [1, 1, 0, 1, 0, 1, 1, 1, 1, 0],
+                [0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+                [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [1, 1, 1, 1, 1, 1, 1, 1, 0, 1],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+                [1, 1, 1, 1, 1, 0, 1, 0, 0, 0]
+            ];
+            
+            // Inicializar o labirinto
+            function initMaze() {
+                maze.innerHTML = '';
+                for (let y = 0; y < 10; y++) {
+                    for (let x = 0; x < 10; x++) {
+                        const cell = document.createElement('div');
+                        cell.classList.add('maze-cell');
+                        
+                        if (mazeLayout[y][x] === 1) {
+                            cell.classList.add('maze-wall');
+                        }
+                        
+                        if (x === playerPosition.x && y === playerPosition.y) {
+                            cell.classList.add('maze-player');
+                            cell.innerHTML = '💜';
+                        }
+                        
+                        if (x === goalPosition.x && y === goalPosition.y) {
+                            cell.classList.add('maze-goal');
+                            cell.innerHTML = '💚';
+                        }
+                        
+                        maze.appendChild(cell);
+                    }
+                }
+            }
+            
+            // Mover o jogador no labirinto
+            function movePlayer(dx, dy) {
+                const newX = playerPosition.x + dx;
+                const newY = playerPosition.y + dy;
+                
+                // Verificar se a nova posição é válida
+                if (
+                    newX >= 0 && newX < 10 &&
+                    newY >= 0 && newY < 10 &&
+                    mazeLayout[newY][newX] !== 1
+                ) {
+                    playerPosition.x = newX;
+                    playerPosition.y = newY;
+                    initMaze();
+                    
+                    // Verificar se o jogador chegou ao objetivo
+                    if (playerPosition.x === goalPosition.x && playerPosition.y === goalPosition.y) {
+                        mazeMessage.classList.remove('hidden');
+                    }
+                }
+            }
+            
+            // Controles do teclado para o labirinto
+            document.addEventListener('keydown', function(event) {
+                // Só processar teclas se o jogo do labirinto estiver visível
+                if (!mazeGame.classList.contains('hidden') && mazeMessage.classList.contains('hidden')) {
+                    switch (event.key) {
+                        case 'ArrowUp':
+                            movePlayer(0, -1);
+                            event.preventDefault();
+                            break;
+                        case 'ArrowDown':
+                            movePlayer(0, 1);
+                            event.preventDefault();
+                            break;
+                        case 'ArrowLeft':
+                            movePlayer(-1, 0);
+                            event.preventDefault();
+                            break;
+                        case 'ArrowRight':
+                            movePlayer(1, 0);
+                            event.preventDefault();
+                            break;
+                    }
+                }
+            });
+            
+            // Inicializar o jogo da velha
+            const tttBoard = document.getElementById('ttt-board');
+            let tttState = ['', '', '', '', '', '', '', '', ''];
+            let tttGameActive = true;
+            
+            function initTicTacToe() {
+                tttBoard.innerHTML = '';
+                tttState = ['', '', '', '', '', '', '', '', ''];
+                tttGameActive = true;
+                
+                for (let i = 0; i < 9; i++) {
+                    const cell = document.createElement('div');
+                    cell.classList.add('ttt-cell');
+                    cell.setAttribute('data-index', i);
+                    
+                    cell.addEventListener('click', function() {
+                        handleCellClick(i, cell);
+                    });
+                    
+                    tttBoard.appendChild(cell);
+                }
+            }
+            
+            function handleCellClick(index, cell) {
+                if (tttGameActive && tttState[index] === '') {
+                    // Jogador faz a jogada (coração)
+                    tttState[index] = 'heart';
+                    cell.innerHTML = '❤️';
+                    cell.classList.add('ttt-heart');
+                    
+                    // Verificar se o jogador ganhou
+                    if (checkWinner('heart')) {
+                        tttGameActive = false;
+                        tttMessage.classList.remove('hidden');
+                        return;
+                    }
+                    
+                    // Verificar se há empate
+                    if (isBoardFull()) {
+                        // Reiniciar o jogo para dar outra chance ao jogador
+                        setTimeout(() => {
+                            initTicTacToe();
+                        }, 1000);
+                        return;
+                    }
+                    
+                    // Computador faz a jogada (X)
+                    setTimeout(() => {
+                        if (tttGameActive) {
+                            makeComputerMove();
+                            
+                            // Verificar se o computador ganhou (não deveria acontecer)
+                            if (checkWinner('x')) {
+                                // Se por algum motivo o computador ganhar, reinicie o jogo
+                                setTimeout(() => {
+                                    initTicTacToe();
+                                }, 1000);
+                                return;
+                            }
+                            
+                            // Verificar se há empate após a jogada do computador
+                            if (isBoardFull()) {
+                                // Reiniciar o jogo para dar outra chance ao jogador
+                                setTimeout(() => {
+                                    initTicTacToe();
+                                }, 1000);
+                                return;
+                            }
+                        }
+                    }, 500);
+                }
+            }
+            
+            // Verificar se o tabuleiro está cheio (empate)
+            function isBoardFull() {
+                return tttState.every(cell => cell !== '');
+            }
+            
+            // Verificar se há um vencedor
+            function checkWinner(player) {
+                const winPatterns = [
+                    [0, 1, 2], [3, 4, 5], [6, 7, 8], // Linhas
+                    [0, 3, 6], [1, 4, 7], [2, 5, 8], // Colunas
+                    [0, 4, 8], [2, 4, 6]             // Diagonais
+                ];
+                
+                return winPatterns.some(pattern => {
+                    return pattern.every(index => tttState[index] === player);
+                });
+            }
+            
+            // Fazer a jogada do computador (nunca ganha)
+            function makeComputerMove() {
+                // Estratégia: Primeiro, verificar se o jogador está prestes a ganhar e NÃO bloquear
+                const winningMove = findWinningMove('heart');
+                if (winningMove !== -1) {
+                    // Se o jogador pode ganhar na próxima jogada, NÃO bloqueie
+                    // Em vez disso, jogue em qualquer outra posição vazia
+                    const emptyCells = findEmptyCellsExcept(winningMove);
+                    if (emptyCells.length > 0) {
+                        const randomIndex = Math.floor(Math.random() * emptyCells.length);
+                        const moveIndex = emptyCells[randomIndex];
+                        
+                        tttState[moveIndex] = 'x';
+                        const cell = tttBoard.querySelector(`[data-index="${moveIndex}"]`);
+                        cell.innerHTML = '✕';
+                        cell.classList.add('ttt-x');
+                        return;
+                    }
+                }
+                
+                // Se o jogador não está prestes a ganhar, verificar se o computador pode ganhar e EVITAR isso
+                const computerWinningMove = findWinningMove('x');
+                if (computerWinningMove !== -1) {
+                    // Se o computador pode ganhar, NÃO faça essa jogada
+                    const emptyCells = findEmptyCellsExcept(computerWinningMove);
+                    if (emptyCells.length > 0) {
+                        const randomIndex = Math.floor(Math.random() * emptyCells.length);
+                        const moveIndex = emptyCells[randomIndex];
+                        
+                        tttState[moveIndex] = 'x';
+                        const cell = tttBoard.querySelector(`[data-index="${moveIndex}"]`);
+                        cell.innerHTML = '✕';
+                        cell.classList.add('ttt-x');
+                        return;
+                    }
+                }
+                
+                // Se não há jogadas especiais, escolha qualquer célula vazia
+                const emptyCells = findEmptyCells();
+                if (emptyCells.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * emptyCells.length);
+                    const moveIndex = emptyCells[randomIndex];
+                    
+                    tttState[moveIndex] = 'x';
+                    const cell = tttBoard.querySelector(`[data-index="${moveIndex}"]`);
+                    cell.innerHTML = '✕';
+                    cell.classList.add('ttt-x');
+                }
+            }
+            
+            // Encontrar uma jogada vencedora para o jogador especificado
+            function findWinningMove(player) {
+                const winPatterns = [
+                    [0, 1, 2], [3, 4, 5], [6, 7, 8], // Linhas
+                    [0, 3, 6], [1, 4, 7], [2, 5, 8], // Colunas
+                    [0, 4, 8], [2, 4, 6]             // Diagonais
+                ];
+                
+                for (const pattern of winPatterns) {
+                    const [a, b, c] = pattern;
+                    
+                    // Verificar se o jogador tem 2 símbolos em uma linha e o terceiro espaço está vazio
+                    if (tttState[a] === player && tttState[b] === player && tttState[c] === '') {
+                        return c;
+                    }
+                    if (tttState[a] === player && tttState[c] === player && tttState[b] === '') {
+                        return b;
+                    }
+                    if (tttState[b] === player && tttState[c] === player && tttState[a] === '') {
+                        return a;
+                    }
+                }
+                
+                return -1; // Nenhuma jogada vencedora encontrada
+            }
+            
+            // Encontrar todas as células vazias
+            function findEmptyCells() {
+                const emptyCells = [];
+                for (let i = 0; i < tttState.length; i++) {
+                    if (tttState[i] === '') {
+                        emptyCells.push(i);
+                    }
+                }
+                return emptyCells;
+            }
+            
+            // Encontrar todas as células vazias exceto uma específica
+            function findEmptyCellsExcept(exceptIndex) {
+                const emptyCells = [];
+                for (let i = 0; i < tttState.length; i++) {
+                    if (tttState[i] === '' && i !== exceptIndex) {
+                        emptyCells.push(i);
+                    }
+                }
+                return emptyCells;
+            }
+            
+            // Configuração do pedido de namoro
+            // Crie um contêiner para o botão "Não" quando ele começar a fugir
+            const buttonContainer = document.createElement('div');
+            buttonContainer.id = 'noButtonContainer';
+            buttonContainer.style.position = 'fixed';
+            buttonContainer.style.zIndex = '1000';
+            buttonContainer.style.top = '0';
+            buttonContainer.style.left = '0';
+            buttonContainer.style.width = '100%';
+            buttonContainer.style.height = '100%';
+            buttonContainer.style.pointerEvents = 'none';
+            document.body.appendChild(buttonContainer);
+            
+            // Variável para controlar se o botão já começou a fugir
+            let isRunning = false;
+            
+            // Adicione o evento de mouseover ao botão "Não"
+            noButton.addEventListener('mouseover', function() {
+                if (!isRunning) {
+                    // Primeira vez que o mouse passa por cima, mova o botão para o contêiner
+                    buttonContainer.appendChild(noButton);
+                    noButton.style.position = 'absolute';
+                    noButton.style.pointerEvents = 'auto';
+                    isRunning = true;
+                }
+                
+                // Posicione o botão em um local aleatório
+                moveButtonToRandomPosition();
+            });
+            
+            function moveButtonToRandomPosition() {
+                // Obtenha as dimensões da janela visível
+                const viewportWidth = window.innerWidth;
+                const viewportHeight = window.innerHeight;
+                
+                // Obtenha as dimensões do botão
+                const buttonWidth = noButton.offsetWidth;
+                const buttonHeight = noButton.offsetHeight;
+                
+                // Defina uma margem de segurança
+                const safeMargin = 50;
+                
+                // Calcule os limites seguros
+                const maxX = viewportWidth - buttonWidth - safeMargin;
+                const maxY = viewportHeight - buttonHeight - safeMargin;
+                
+                // Gere uma posição aleatória dentro dos limites seguros
+                const randomX = Math.min(Math.max(safeMargin, Math.floor(Math.random() * maxX)), maxX);
+                const randomY = Math.min(Math.max(safeMargin, Math.floor(Math.random() * maxY)), maxY);
+                
+                // Posicione o botão
+                noButton.style.left = randomX + 'px';
+                noButton.style.top = randomY + 'px';
+            }
+            
+            // Handle "Yes" button click
+            yesButton.addEventListener('click', function() {
+                proposal.classList.add('hidden');
+                result.classList.remove('hidden');
+                
+                // Esconda o botão "Não" se estiver fugindo
+                if (isRunning) {
+                    buttonContainer.style.display = 'none';
+                }
+                
+                // Create pixel heart
+                createPixelHeart();
+            });
+            
+            // Heart pattern (1 = pixel, 0 = no pixel)
+            const heartPattern = [
+                [0, 0, 1, 1, 0, 0, 1, 1, 0, 0],
+                [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+                [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
+                [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
+                [0, 0, 0, 0, 1, 1, 0, 0, 0, 0]
+            ];
+            
+            function createPixelHeart() {
+                // Create all pixels first
+                for (let y = 0; y < heartPattern.length; y++) {
+                    for (let x = 0; x < heartPattern[y].length; x++) {
+                        const pixel = document.createElement('div');
+                        pixel.classList.add('pixel');
+                        
+                        if (heartPattern[y][x] === 1) {
+                            pixel.dataset.x = x;
+                            pixel.dataset.y = y;
+                        }
+                        
+                        pixelHeart.appendChild(pixel);
+                    }
+                }
+                
+                // Get all pixels that should be active
+                const activePixels = [];
+                document.querySelectorAll('.pixel[data-x]').forEach(pixel => {
+                    activePixels.push(pixel);
+                });
+                
+                // Shuffle array for random reveal
+                shuffleArray(activePixels);
+                
+                // Reveal pixels one by one
+                let i = 0;
+                const interval = setInterval(() => {
+                    if (i < activePixels.length) {
+                        activePixels[i].classList.add('active');
+                        i++;
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 50);
+            }
+            
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
+            }
+            
+            // Inicializar o calendário
+            function initCalendar() {
+                const calendarDays = document.getElementById('calendar-days');
+                calendarDays.innerHTML = '';
+                
+                // Março 2025
+                const year = 2025;
+                const month = 2; // 0-indexed (0 = Janeiro, 2 = Março)
+                const specialDay = 28; // 28 de março
+                
+                // Primeiro dia do mês
+                const firstDay = new Date(year, month, 1);
+                // Último dia do mês
+                const lastDay = new Date(year, month + 1, 0);
+                
+                // Dia da semana do primeiro dia (0 = Domingo, 6 = Sábado)
+                const firstDayOfWeek = firstDay.getDay();
+                
+                // Número total de dias no mês
+                const daysInMonth = lastDay.getDate();
+                
+                // Adicionar dias do mês anterior para preencher a primeira semana
+                for (let i = 0; i < firstDayOfWeek; i++) {
+                    const dayElement = document.createElement('div');
+                    dayElement.classList.add('day', 'other-month');
+                    calendarDays.appendChild(dayElement);
+                }
+                
+                // Adicionar dias do mês atual
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dayElement = document.createElement('div');
+                    dayElement.classList.add('day', 'current-month');
+                    dayElement.textContent = day;
+                    
+                    // Destacar o dia especial
+                    if (day === specialDay) {
+                        dayElement.classList.add('special-day');
+                        
+                        // Adicionar animação de destaque após um pequeno atraso
+                        setTimeout(() => {
+                            dayElement.style.animation = 'highlight 1.5s infinite';
+                        }, 1000);
+                    }
+                    
+                    calendarDays.appendChild(dayElement);
+                }
+                
+                // Adicionar mensagem após um atraso
+                setTimeout(() => {
+                    calendarMessage.textContent = 'nosso dia pra sempre ❤️';
+                    calendarMessage.style.opacity = '1';
+                }, 2000);
+            }
+            
+            // Navegação entre os jogos
+            mazeNextBtn.addEventListener('click', function() {
+                mazeGame.classList.add('hidden');
+                ticTacToe.classList.remove('hidden');
+                initTicTacToe();
+            });
+            
+            tttNextBtn.addEventListener('click', function() {
+                ticTacToe.classList.add('hidden');
+                proposal.classList.remove('hidden');
+            });
+            
+            heartNextBtn.addEventListener('click', function() {
+                result.classList.add('hidden');
+                calendarContainer.classList.remove('hidden');
+                initCalendar();
+            });
+            
+            // Inicializar o primeiro jogo
+            initMaze();
+        });
+    </script>
 </body>
 </html>
