@@ -128,6 +128,102 @@
             background-color: #e91e63;
             animation: pulse 1.5s infinite;
         }
+        /* Garantir que a mensagem e o botão estejam visíveis */
+        #hangman-message {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Garantir que o botão não esteja escondido */
+        #hangman-message.hidden .next-btn {
+            display: none;
+        }
+
+        #hangman-message:not(.hidden) .next-btn {
+            display: block;
+        }
+        /* Barra de progresso */
+        .progress-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto 20px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50px;
+            padding: 5px;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+        }
+
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+        }
+
+        .progress-step {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            color: #9e9e9e;
+            position: relative;
+            z-index: 2;
+        }
+
+        .progress-step.active {
+            background-color: #e91e63;
+            color: white;
+            animation: pulse 1.5s infinite;
+        }
+
+        .progress-step.completed {
+            background-color: #e91e63;
+            color: white;
+        }
+
+        .progress-line {
+            height: 4px;
+            background-color: #f8bbd0;
+            flex-grow: 1;
+            margin: 0 -5px;
+            z-index: 1;
+        }
+
+        .progress-line.completed {
+            background-color: #e91e63;
+        }
+        /* Adicione isso ao seu CSS */
+        #hangman {
+            overflow-y: auto;
+            max-height: 90vh;
+            padding: 20px;
+        }
+
+        #hangman-message {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .hangman-heart {
+            margin: 20px auto;
+        }
+
+        .keyboard {
+            margin-bottom: 20px;
+        }
 
         /* Estilos para o Labirinto */
         #maze-game {
@@ -179,6 +275,161 @@
             text-align: center;
             margin-bottom: 20px;
             color: #e91e63;
+        }
+
+        /* Estilos para o Caça-palavras */
+        #word-search {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .word-search-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            grid-template-rows: repeat(10, 1fr);
+            gap: 2px;
+            margin-bottom: 20px;
+        }
+
+        .word-cell {
+            width: 100%;
+            aspect-ratio: 1;
+            background-color: white;
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+
+        .word-cell.selected {
+            background-color: #f8bbd0;
+        }
+
+        .word-cell.found {
+            background-color: #e91e63;
+            color: white;
+            animation: pulse 1.5s infinite;
+        }
+
+        .word-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .word-item {
+            padding: 8px 15px;
+            background-color: white;
+            border-radius: 20px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .word-item.found {
+            background-color: #e91e63;
+            color: white;
+            text-decoration: line-through;
+        }
+
+        /* Estilos para o Jogo da Forca */
+        #hangman {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .hangman-heart {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+
+        .heart-piece {
+            position: absolute;
+            background-color: #ffcdd2;
+            opacity: 0.3;
+            transition: all 0.5s ease;
+        }
+
+        .heart-piece.revealed {
+            background-color: #e91e63;
+            opacity: 1;
+            animation: pulse 1.5s infinite;
+        }
+
+        .word-display {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .letter-box {
+            width: 30px;
+            height: 40px;
+            border-bottom: 3px solid #e91e63;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #e91e63;
+        }
+
+        .letter-box.space {
+            border-bottom: none;
+            width: 15px;
+        }
+
+        .keyboard {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+
+        .key {
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border: 2px solid #f8bbd0;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #e91e63;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .key:hover {
+            background-color: #f8bbd0;
+        }
+
+        .key.used {
+            background-color: #9e9e9e;
+            color: white;
+            border-color: #9e9e9e;
+            cursor: default;
+        }
+
+        .key.correct {
+            background-color: #4caf50;
+            color: white;
+            border-color: #4caf50;
         }
 
         /* Estilos para o Jogo da Velha */
@@ -249,6 +500,20 @@
             transform: scale(1.05);
         }
 
+        /* Mensagem entre jogos */
+        .transition-message {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 20px;
+            color: #e91e63;
+            font-weight: bold;
+            animation: fadeIn 1s;
+        }
+     
+        .next-btn {
+            position: relative;
+            z-index: 10;
+        }
         /* Estilos para o Calendário */
         #calendar-container {
             width: 100%;
@@ -365,6 +630,33 @@
             margin: 0 5px;
             animation: pulse 1.5s infinite;
         }
+        /* Garantir que as mensagens de transição não cubram os botões */
+        #hangman-message, 
+        #word-search-message, 
+        #maze-message, 
+        #ttt-message {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Garantir que os botões sempre fiquem acessíveis */
+        .next-btn {
+            position: relative;
+            z-index: 10;
+            cursor: pointer;
+        }
+
+        /* Garantir que o container do jogo tenha um z-index adequado */
+        #hangman, 
+        #word-search, 
+        #maze-game, 
+        #tic-tac-toe, 
+        #proposal, 
+        #result, 
+        #calendar-container {
+            position: relative;
+            z-index: 2;
+        }
 
         .heart-decoration span:nth-child(2) {
             animation-delay: 0.5s;
@@ -456,10 +748,47 @@
             .day {
                 font-size: 14px;
             }
+
+            .word-cell {
+                font-size: 14px;
+            }
+
+            .letter-box {
+                width: 25px;
+                height: 35px;
+                font-size: 20px;
+            }
+
+            .key {
+                width: 30px;
+                height: 30px;
+                font-size: 14px;
+            }
+
+            .progress-step {
+                width: 25px;
+                height: 25px;
+                font-size: 12px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Barra de Progresso -->
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div class="progress-step active" id="step1">1</div>
+            <div class="progress-line" id="line1"></div>
+            <div class="progress-step" id="step2">2</div>
+            <div class="progress-line" id="line2"></div>
+            <div class="progress-step" id="step3">3</div>
+            <div class="progress-line" id="line3"></div>
+            <div class="progress-step" id="step4">4</div>
+            <div class="progress-line" id="line4"></div>
+            <div class="progress-step" id="step5">5</div>
+        </div>
+    </div>
+
     <div class="container">
         <!-- Jogo 1: Labirinto -->
         <div id="maze-game" class="card">
@@ -467,25 +796,53 @@
             <p class="maze-instructions">Use as setas do teclado para mover o coração roxo até o coração verde</p>
             <div id="maze"></div>
             <div id="maze-message" class="hidden">
-                <h2>Que bom que, no meio de tudo que poderia ter acontecido, a gente se encontrou 💚💜</h2>
+                <h2>Que bom que cruzamos nossos destinos ❤️</h2>
+                <p class="transition-message">Nosso amor é como um quebra-cabeça perfeito...</p>
                 <button id="maze-next-btn" class="next-btn">Próximo Desafio</button>
             </div>
         </div>
 
-        <!-- Jogo 2: Jogo da Velha -->
+        <!-- Jogo 2: Caça-palavras -->
+        <div id="word-search" class="card hidden">
+            <h1>Caça-palavras do Amor</h1>
+            <p class="maze-instructions">Encontre as palavras que descrevem o que sinto por você</p>
+            <div class="word-list" id="word-list"></div>
+            <div class="word-search-grid" id="word-search-grid"></div>
+            <div id="word-search-message" class="hidden">
+                <h2>Você encontrou todas as palavras que descrevem o que sinto por você ❤️</h2>
+                <p class="transition-message">Cada palavra é um pedaço do meu coração...</p>
+                <button id="word-search-next-btn" class="next-btn">Próximo Desafio</button>
+            </div>
+        </div>
+
+        <!-- Jogo 3: Jogo da Forca -->
+        <div id="hangman" class="card hidden">
+            <h1>Descubra a Mensagem Especial</h1>
+            <div class="hangman-heart" id="hangman-heart"></div>
+            <div class="word-display" id="word-display"></div>
+            <div class="keyboard" id="keyboard"></div>
+            <div id="hangman-message" class="hidden">
+                <h2>Você descobriu! Você me faz feliz todos os dias ❤️</h2>
+                <p class="transition-message">E agora vamos jogar pelo meu coração...</p>
+                <button id="hangman-next-btn" class="next-btn">Próximo Desafio</button>
+            </div>
+        </div>
+
+        <!-- Jogo 4: Jogo da Velha -->
         <div id="tic-tac-toe" class="card hidden">
             <h1>Jogo da Velha</h1>
             <div id="ttt-board" class="ttt-board"></div>
             <div id="ttt-message" class="hidden">
                 <h2>Você ganhou meu coração ❤️</h2>
+                <p class="transition-message">Chegou o momento mais importante...</p>
                 <button id="ttt-next-btn" class="next-btn">Próximo Passo</button>
             </div>
         </div>
 
-        <!-- Jogo 3: Pedido de Namoro -->
+        <!-- Jogo 5: Pedido de Namoro -->
         <div id="proposal" class="card hidden">
             <div class="heart-icon">❤️</div>
-            <h1 id="question">Aceita ser minha namorada?</h1>
+            <h1 id="question">Quer namorar comigo?</h1>
             <div class="buttons">
                 <button id="yesButton" class="btn yes-btn">Sim</button>
                 <button id="noButton" class="btn no-btn">Não</button>
@@ -494,14 +851,14 @@
         
         <!-- Resultado do Pedido de Namoro -->
         <div id="result" class="result hidden">
-            <h1 id="answer">Nos duas, sempre! 💚💜</h1>
+            <h1 id="answer">Eu sabia que você diria sim! ❤️</h1>
             <div id="pixelHeart" class="pixel-heart-container"></div>
             <button id="heart-next-btn" class="next-btn" style="margin-top: 30px;">Continuar</button>
         </div>
 
         <!-- Calendário -->
         <div id="calendar-container" class="card hidden">
-            <h1>Nossa Data especial</h1>
+            <h1>Nossa Data Especial</h1>
             <div class="calendar">
                 <div class="calendar-header">
                     <div class="calendar-month">Março <span class="calendar-year">2025</span></div>
@@ -521,8 +878,9 @@
             </div>
             <div class="calendar-message" id="calendar-message"></div>
             <div class="heart-decoration">
-                <span>💚</span>
-                <span>💜</span>
+                <span>❤️</span>
+                <span>❤️</span>
+                <span>❤️</span>
             </div>
         </div>
     </div>
@@ -531,13 +889,49 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Elementos comuns
             const mazeGame = document.getElementById('maze-game');
+            const wordSearch = document.getElementById('word-search');
+            const hangman = document.getElementById('hangman');
             const ticTacToe = document.getElementById('tic-tac-toe');
             const proposal = document.getElementById('proposal');
             const result = document.getElementById('result');
             const calendarContainer = document.getElementById('calendar-container');
             
+            // Elementos da barra de progresso
+            const progressSteps = [
+                document.getElementById('step1'),
+                document.getElementById('step2'),
+                document.getElementById('step3'),
+                document.getElementById('step4'),
+                document.getElementById('step5')
+            ];
+            
+            const progressLines = [
+                document.getElementById('line1'),
+                document.getElementById('line2'),
+                document.getElementById('line3'),
+                document.getElementById('line4')
+            ];
+            
+            // Função para atualizar a barra de progresso
+            function updateProgress(step) {
+                // Marcar todos os passos anteriores como concluídos
+                for (let i = 0; i < step; i++) {
+                    progressSteps[i].classList.remove('active');
+                    progressSteps[i].classList.add('completed');
+                    
+                    if (i < step - 1) {
+                        progressLines[i].classList.add('completed');
+                    }
+                }
+                
+                // Marcar o passo atual como ativo
+                progressSteps[step].classList.add('active');
+            }
+            
             // Botões de navegação
             const mazeNextBtn = document.getElementById('maze-next-btn');
+            const wordSearchNextBtn = document.getElementById('word-search-next-btn');
+            const hangmanNextBtn = document.getElementById('hangman-next-btn');
             const tttNextBtn = document.getElementById('ttt-next-btn');
             const heartNextBtn = document.getElementById('heart-next-btn');
             
@@ -548,6 +942,8 @@
             
             // Mensagens
             const mazeMessage = document.getElementById('maze-message');
+            const wordSearchMessage = document.getElementById('word-search-message');
+            const hangmanMessage = document.getElementById('hangman-message');
             const tttMessage = document.getElementById('ttt-message');
             const calendarMessage = document.getElementById('calendar-message');
             
@@ -584,12 +980,12 @@
                         
                         if (x === playerPosition.x && y === playerPosition.y) {
                             cell.classList.add('maze-player');
-                            cell.innerHTML = '💜';
+                            cell.innerHTML = '❤️';
                         }
                         
                         if (x === goalPosition.x && y === goalPosition.y) {
                             cell.classList.add('maze-goal');
-                            cell.innerHTML = '💚';
+                            cell.innerHTML = '❤️';
                         }
                         
                         maze.appendChild(cell);
@@ -597,8 +993,8 @@
                 }
             }
             
-            // Mover o jogador no labirinto
-            function movePlayer(dx, dy) {
+                // Mover o jogador no labirinto
+                function movePlayer(dx, dy) {
                 const newX = playerPosition.x + dx;
                 const newY = playerPosition.y + dy;
                 
@@ -615,10 +1011,10 @@
                     // Verificar se o jogador chegou ao objetivo
                     if (playerPosition.x === goalPosition.x && playerPosition.y === goalPosition.y) {
                         mazeMessage.classList.remove('hidden');
+                        updateProgress(1); // Atualiza a barra de progresso quando completar
                     }
                 }
             }
-            
             // Controles do teclado para o labirinto
             document.addEventListener('keydown', function(event) {
                 // Só processar teclas se o jogo do labirinto estiver visível
@@ -643,6 +1039,448 @@
                     }
                 }
             });
+            
+            // Configuração do caça-palavras
+            const wordSearchGrid = document.getElementById('word-search-grid');
+            const wordList = document.getElementById('word-list');
+            
+            // Palavras para o caça-palavras
+            const words = [
+                'AMOR', 
+                'CARINHO', 
+                'PAIXAO', 
+                'TERNURA', 
+                'AFETO', 
+                'SAUDADE', 
+                'BEIJOS', 
+                'ABRACOS'
+            ];
+            
+            // Direções possíveis para as palavras
+            const directions = [
+                [0, 1],   // Vertical para baixo
+                [1, 0],   // Horizontal para direita
+                [1, 1],   // Diagonal para baixo-direita
+                [1, -1],  // Diagonal para cima-direita
+            ];
+            
+            // Matriz do caça-palavras
+            let wordSearchMatrix = [];
+            let wordPositions = {};
+            
+            // Inicializar o caça-palavras
+            function initWordSearch() {
+                // Criar matriz vazia 10x10
+                wordSearchMatrix = Array(10).fill().map(() => Array(10).fill(''));
+                wordPositions = {};
+                
+                // Colocar as palavras na matriz
+                for (const word of words) {
+                    placeWord(word);
+                }
+                
+                // Preencher espaços vazios com letras aleatórias
+                for (let y = 0; y < 10; y++) {
+                    for (let x = 0; x < 10; x++) {
+                        if (wordSearchMatrix[y][x] === '') {
+                            const randomLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+                            wordSearchMatrix[y][x] = randomLetter;
+                        }
+                    }
+                }
+                
+                // Renderizar o grid
+                renderWordSearchGrid();
+                
+                // Renderizar a lista de palavras
+                renderWordList();
+            }
+            
+            // Colocar uma palavra na matriz
+            function placeWord(word) {
+                let placed = false;
+                let attempts = 0;
+                
+                while (!placed && attempts < 100) {
+                    attempts++;
+                    
+                    // Escolher uma direção aleatória
+                    const dirIndex = Math.floor(Math.random() * directions.length);
+                    const [dx, dy] = directions[dirIndex];
+                    
+                    // Escolher uma posição inicial aleatória
+                    const startX = Math.floor(Math.random() * 10);
+                    const startY = Math.floor(Math.random() * 10);
+                    
+                    // Verificar se a palavra cabe na direção escolhida
+                    if (
+                        startX + dx * (word.length - 1) >= 0 && 
+                        startX + dx * (word.length - 1) < 10 &&
+                        startY + dy * (word.length - 1) >= 0 && 
+                        startY + dy * (word.length - 1) < 10
+                    ) {
+                        // Verificar se a palavra não conflita com outras palavras
+                        let canPlace = true;
+                        const positions = [];
+                        
+                        for (let i = 0; i < word.length; i++) {
+                            const x = startX + dx * i;
+                            const y = startY + dy * i;
+                            
+                            if (wordSearchMatrix[y][x] !== '' && wordSearchMatrix[y][x] !== word[i]) {
+                                canPlace = false;
+                                break;
+                            }
+                            
+                            positions.push({x, y});
+                        }
+                        
+                        if (canPlace) {
+                            // Colocar a palavra na matriz
+                            for (let i = 0; i < word.length; i++) {
+                                const x = startX + dx * i;
+                                const y = startY + dy * i;
+                                wordSearchMatrix[y][x] = word[i];
+                            }
+                            
+                            // Armazenar as posições da palavra
+                            wordPositions[word] = positions;
+                            placed = true;
+                        }
+                    }
+                }
+                
+                // Se não conseguiu colocar a palavra após várias tentativas, tente novamente com outra direção
+                if (!placed) {
+                    placeWord(word);
+                }
+            }
+            
+            // Renderizar o grid do caça-palavras
+            function renderWordSearchGrid() {
+                wordSearchGrid.innerHTML = '';
+                
+                for (let y = 0; y < 10; y++) {
+                    for (let x = 0; x < 10; x++) {
+                        const cell = document.createElement('div');
+                        cell.classList.add('word-cell');
+                        cell.textContent = wordSearchMatrix[y][x];
+                        cell.dataset.x = x;
+                        cell.dataset.y = y;
+                        
+                        cell.addEventListener('click', function() {
+                            handleWordCellClick(x, y);
+                        });
+                        
+                        wordSearchGrid.appendChild(cell);
+                    }
+                }
+            }
+            
+            // Renderizar a lista de palavras
+            function renderWordList() {
+                wordList.innerHTML = '';
+                
+                for (const word of words) {
+                    const wordItem = document.createElement('div');
+                    wordItem.classList.add('word-item');
+                    wordItem.textContent = word;
+                    wordItem.id = `word-${word}`;
+                    wordList.appendChild(wordItem);
+                }
+            }
+            
+            // Variáveis para seleção de palavras
+            let selectedCells = [];
+            let foundWords = [];
+            
+            // Manipular clique em uma célula do caça-palavras
+            function handleWordCellClick(x, y) {
+                const cell = wordSearchGrid.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+                
+                if (selectedCells.length === 0) {
+                    // Primeira célula selecionada
+                    cell.classList.add('selected');
+                    selectedCells.push({x, y, cell});
+                } else if (selectedCells.length === 1) {
+                    // Segunda célula selecionada - determinar a direção
+                    const firstCell = selectedCells[0];
+                    const dx = Math.sign(x - firstCell.x);
+                    const dy = Math.sign(y - firstCell.y);
+                    
+                    // Verificar se é uma direção válida
+                    if (dx === 0 && dy === 0) {
+                        // Mesma célula - desmarcar
+                        firstCell.cell.classList.remove('selected');
+                        selectedCells = [];
+                        return;
+                    }
+                    
+                    // Selecionar todas as células na linha entre a primeira e a segunda
+                    const distance = Math.max(
+                        Math.abs(x - firstCell.x),
+                        Math.abs(y - firstCell.y)
+                    );
+                    
+                    // Adicionar todas as células no caminho
+                    for (let i = 0; i <= distance; i++) {
+                        const cellX = firstCell.x + dx * i;
+                        const cellY = firstCell.y + dy * i;
+                        const pathCell = wordSearchGrid.querySelector(`[data-x="${cellX}"][data-y="${cellY}"]`);
+                        
+                        if (pathCell) {
+                            pathCell.classList.add('selected');
+                            if (i > 0) {
+                                selectedCells.push({x: cellX, y: cellY, cell: pathCell});
+                            }
+                        }
+                    }
+                    
+                    // Verificar se formou uma palavra
+                    checkSelectedWord();
+                    
+                    // Limpar seleção após um pequeno atraso
+                    setTimeout(() => {
+                        selectedCells.forEach(cell => {
+                            if (!cell.cell.classList.contains('found')) {
+                                cell.cell.classList.remove('selected');
+                            }
+                        });
+                        selectedCells = [];
+                    }, 500);
+                }
+            }
+            
+            // Verificar se a seleção forma uma palavra
+            function checkSelectedWord() {
+                // Obter a palavra formada
+                let word = '';
+                for (const cell of selectedCells) {
+                    word += wordSearchMatrix[cell.y][cell.x];
+                }
+                
+                // Verificar se a palavra está na lista
+                if (words.includes(word)) {
+                    // Palavra encontrada!
+                    foundWords.push(word);
+                    
+                    // Marcar as células como encontradas
+                    selectedCells.forEach(cell => {
+                        cell.cell.classList.add('found');
+                    });
+                    
+                    // Marcar a palavra na lista
+                    const wordItem = document.getElementById(`word-${word}`);
+                    if (wordItem) {
+                        wordItem.classList.add('found');
+                    }
+                    
+                    // Verificar se todas as palavras foram encontradas
+                    if (foundWords.length === words.length) {
+                        wordSearchMessage.classList.remove('hidden');
+                        updateProgress(1);
+                    }
+                } else {
+                    // Verificar se a palavra invertida está na lista
+                    const reversedWord = word.split('').reverse().join('');
+                    if (words.includes(reversedWord)) {
+                        // Palavra encontrada!
+                        foundWords.push(reversedWord);
+                        
+                        // Marcar as células como encontradas
+                        selectedCells.forEach(cell => {
+                            cell.cell.classList.add('found');
+                        });
+                        
+                        // Marcar a palavra na lista
+                        const wordItem = document.getElementById(`word-${reversedWord}`);
+                        if (wordItem) {
+                            wordItem.classList.add('found');
+                        }
+                        
+                        // Verificar se todas as palavras foram encontradas
+                        if (foundWords.length === words.length) {
+                            wordSearchMessage.classList.remove('hidden');
+                            updateProgress(1);
+                        }
+                    }
+                }
+            }
+            
+            // Configuração do jogo da forca
+            const hangmanHeart = document.getElementById('hangman-heart');
+            const wordDisplay = document.getElementById('word-display');
+            const keyboard = document.getElementById('keyboard');
+            
+            // Frase para adivinhar
+            const hangmanPhrase = "VOCE ME FAZ FELIZ TODOS OS DIAS";
+            let guessedLetters = [];
+            let heartPieces = [];
+            
+            // Inicializar o jogo da forca
+            function initHangman() {
+                // Limpar estados anteriores
+                guessedLetters = [];
+                
+                // Resetar a mensagem e o botão
+                hangmanMessage.classList.add('hidden');
+                hangmanNextBtn.style.display = 'block';
+                hangmanNextBtn.style.pointerEvents = 'auto';
+                
+                // Criar o coração
+                createHeartPieces();
+                
+                // Renderizar a palavra
+                renderWordDisplay();
+                
+                // Renderizar o teclado
+                renderKeyboard();
+            }
+            
+            // Criar as peças do coração
+            function createHeartPieces() {
+                hangmanHeart.innerHTML = '';
+                heartPieces = [];
+                
+                // Criar 8 peças do coração
+                const heartShapes = [
+                    // Parte superior esquerda
+                    { top: '0%', left: '25%', width: '25%', height: '25%', borderRadius: '50% 50% 0 50%' },
+                    // Parte superior direita
+                    { top: '0%', left: '50%', width: '25%', height: '25%', borderRadius: '50% 50% 50% 0' },
+                    // Meio esquerdo superior
+                    { top: '25%', left: '12.5%', width: '37.5%', height: '25%', borderRadius: '50% 0 0 50%' },
+                    // Meio direito superior
+                    { top: '25%', left: '50%', width: '37.5%', height: '25%', borderRadius: '0 50% 50% 0' },
+                    // Meio esquerdo inferior
+                    { top: '50%', left: '25%', width: '25%', height: '25%', borderRadius: '0 0 0 50%' },
+                    // Meio direito inferior
+                    { top: '50%', left: '50%', width: '25%', height: '25%', borderRadius: '0 0 50% 0' },
+                    // Parte inferior esquerda
+                    { top: '75%', left: '37.5%', width: '12.5%', height: '25%', borderRadius: '0 0 0 50%' },
+                    // Parte inferior direita
+                    { top: '75%', left: '50%', width: '12.5%', height: '25%', borderRadius: '0 0 50% 0' }
+                ];
+                
+                for (const shape of heartShapes) {
+                    const piece = document.createElement('div');
+                    piece.classList.add('heart-piece');
+                    piece.style.top = shape.top;
+                    piece.style.left = shape.left;
+                    piece.style.width = shape.width;
+                    piece.style.height = shape.height;
+                    piece.style.borderRadius = shape.borderRadius;
+                    
+                    hangmanHeart.appendChild(piece);
+                    heartPieces.push(piece);
+                }
+            }
+            
+            // Renderizar a palavra a ser adivinhada
+            function renderWordDisplay() {
+                wordDisplay.innerHTML = '';
+                
+                for (let i = 0; i < hangmanPhrase.length; i++) {
+                    const letter = hangmanPhrase[i];
+                    const letterBox = document.createElement('div');
+                    
+                    if (letter === ' ') {
+                        letterBox.classList.add('letter-box', 'space');
+                    } else {
+                        letterBox.classList.add('letter-box');
+                        if (guessedLetters.includes(letter)) {
+                            letterBox.textContent = letter;
+                        }
+                    }
+                    
+                    wordDisplay.appendChild(letterBox);
+                }
+            }
+            
+            // Renderizar o teclado
+            function renderKeyboard() {
+                keyboard.innerHTML = '';
+                
+                const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                
+                for (let i = 0; i < letters.length; i++) {
+                    const letter = letters[i];
+                    const key = document.createElement('div');
+                    key.classList.add('key');
+                    key.textContent = letter;
+                    
+                    if (guessedLetters.includes(letter)) {
+                        key.classList.add('used');
+                        if (hangmanPhrase.includes(letter)) {
+                            key.classList.add('correct');
+                        }
+                    } else {
+                        key.addEventListener('click', function() {
+                            guessLetter(letter);
+                        });
+                    }
+                    
+                    keyboard.appendChild(key);
+                }
+            }
+            
+            // Adivinhar uma letra
+            function guessLetter(letter) {
+                if (guessedLetters.includes(letter)) {
+                    return;
+                }
+                
+                guessedLetters.push(letter);
+                
+                // Verificar se a letra está na frase
+                if (hangmanPhrase.includes(letter)) {
+                    // Revelar uma parte do coração
+                    const unrevealedPieces = heartPieces.filter(piece => !piece.classList.contains('revealed'));
+                    if (unrevealedPieces.length > 0) {
+                        const randomIndex = Math.floor(Math.random() * unrevealedPieces.length);
+                        unrevealedPieces[randomIndex].classList.add('revealed');
+                    }
+                }
+                
+                // Atualizar a exibição da palavra
+                renderWordDisplay();
+                
+                // Atualizar o teclado
+                renderKeyboard();
+                
+                // Verificar se o jogador ganhou
+                checkHangmanWin();
+            }
+            
+            // Modifique a função checkHangmanWin para:
+            function checkHangmanWin() {
+                let allLettersGuessed = true;
+                
+                for (let i = 0; i < hangmanPhrase.length; i++) {
+                    const letter = hangmanPhrase[i];
+                    if (letter !== ' ' && !guessedLetters.includes(letter)) {
+                        allLettersGuessed = false;
+                        break;
+                    }
+                }
+                
+                if (allLettersGuessed) {
+                    // Revelar todas as partes do coração
+                    heartPieces.forEach(piece => {
+                        piece.classList.add('revealed');
+                    });
+                    
+                    // Mostrar mensagem de vitória
+                    setTimeout(() => {
+                        hangmanMessage.classList.remove('hidden');
+                        updateProgress(2);
+                        
+                        // Rolagem automática para o botão
+                        hangmanNextBtn.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                    }, 500);
+                }
+            }
+
             
             // Inicializar o jogo da velha
             const tttBoard = document.getElementById('ttt-board');
@@ -678,6 +1516,7 @@
                     if (checkWinner('heart')) {
                         tttGameActive = false;
                         tttMessage.classList.remove('hidden');
+                        updateProgress(3);
                         return;
                     }
                     
@@ -892,6 +1731,7 @@
             yesButton.addEventListener('click', function() {
                 proposal.classList.add('hidden');
                 result.classList.remove('hidden');
+                updateProgress(4);
                 
                 // Esconda o botão "Não" se estiver fugindo
                 if (isRunning) {
@@ -1017,13 +1857,29 @@
             // Navegação entre os jogos
             mazeNextBtn.addEventListener('click', function() {
                 mazeGame.classList.add('hidden');
+                wordSearch.classList.remove('hidden');
+                initWordSearch();
+                updateProgress(1);
+            });
+            
+            wordSearchNextBtn.addEventListener('click', function() {
+                wordSearch.classList.add('hidden');
+                hangman.classList.remove('hidden');
+                initHangman();
+                updateProgress(2);
+            });
+            
+            hangmanNextBtn.addEventListener('click', function() {
+                hangman.classList.add('hidden');
                 ticTacToe.classList.remove('hidden');
                 initTicTacToe();
+                updateProgress(3);
             });
             
             tttNextBtn.addEventListener('click', function() {
                 ticTacToe.classList.add('hidden');
                 proposal.classList.remove('hidden');
+                updateProgress(4);
             });
             
             heartNextBtn.addEventListener('click', function() {
@@ -1032,8 +1888,9 @@
                 initCalendar();
             });
             
-            // Inicializar o primeiro jogo
+            // Inicializar o primeiro jogo e a barra de progresso
             initMaze();
+            updateProgress(0);
         });
     </script>
 </body>
