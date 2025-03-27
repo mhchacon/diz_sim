@@ -234,21 +234,24 @@
 
         #maze {
             display: grid;
-            grid-template-columns: repeat(10, 1fr);
-            grid-template-rows: repeat(10, 1fr);
+            grid-template-columns: repeat(10, 30px);
+            grid-template-rows: repeat(10, 30px);
             gap: 2px;
-            margin-bottom: 20px;
+            margin: 0 auto 20px;
+            max-width: 100%;
+            overflow: auto;
         }
 
         .maze-cell {
-            width: 100%;
-            aspect-ratio: 1;
+            width: 30px;
+            height: 30px;
             background-color: white;
             border-radius: 4px;
         }
 
         .maze-wall {
-            background-color: #d81b60;
+            background-color: #e91e63;
+            border-radius: 0;
         }
 
         .maze-player {
@@ -257,8 +260,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            color: white;
-            font-size: 14px;
+            font-size: 18px;
         }
 
         .maze-goal {
@@ -267,14 +269,43 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            color: white;
-            font-size: 14px;
+            font-size: 18px;
         }
 
         .maze-instructions {
             text-align: center;
             margin-bottom: 20px;
             color: #e91e63;
+        }
+
+        /* Controles para dispositivos móveis */
+        .mobile-controls {
+            display: none;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 5px;
+            margin: 20px auto;
+            max-width: 150px;
+        }
+
+        .control-btn {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(233, 30, 99, 0.2);
+            border: 2px solid #e91e63;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: #e91e63;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .control-btn:active {
+            background-color: rgba(233, 30, 99, 0.5);
+            transform: scale(0.95);
         }
 
         /* Estilos para o Caça-palavras */
@@ -514,6 +545,27 @@
             position: relative;
             z-index: 10;
         }
+
+        /* Tela de pergunta do milhão */
+        #million-question {
+            text-align: center;
+        }
+
+        #million-question .heart-icon {
+            font-size: 100px;
+            margin-bottom: 30px;
+        }
+
+        #million-question h1 {
+            font-size: 32px;
+            margin-bottom: 40px;
+        }
+
+        #million-question .transition-message {
+            font-size: 24px;
+            margin-bottom: 40px;
+        }
+
         /* Estilos para o Calendário */
         #calendar-container {
             width: 100%;
@@ -650,7 +702,8 @@
         #hangman, 
         #word-search, 
         #maze-game, 
-        #tic-tac-toe, 
+        #tic-tac-toe,
+        #million-question,
         #proposal, 
         #result, 
         #calendar-container {
@@ -666,6 +719,7 @@
             animation-delay: 1s;
         }
 
+        /* Animações */
         @keyframes pulse {
             0% {
                 transform: scale(1);
@@ -713,7 +767,36 @@
             }
         }
 
+        /* Confetes para a tela de pergunta do milhão */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #e91e63;
+            opacity: 0.8;
+            z-index: 1;
+            animation: confetti-fall linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        /* Responsividade para dispositivos móveis */
         @media (max-width: 500px) {
+            .container {
+                padding: 10px;
+            }
+
+            .card {
+                padding: 20px 15px;
+            }
+
             .pixel {
                 width: 20px;
                 height: 20px;
@@ -727,8 +810,18 @@
                 font-size: 60px;
             }
 
+            #maze {
+                grid-template-columns: repeat(10, 25px);
+                grid-template-rows: repeat(10, 25px);
+            }
+
             .maze-cell {
-                width: 100%;
+                width: 25px;
+                height: 25px;
+            }
+
+            .mobile-controls {
+                display: grid;
             }
 
             .ttt-cell {
@@ -770,6 +863,55 @@
                 height: 25px;
                 font-size: 12px;
             }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        /* Dicas visuais para o usuário */
+        .hint {
+            background-color: rgba(233, 30, 99, 0.1);
+            border-left: 4px solid #e91e63;
+            padding: 10px 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 14px;
+            color: #d81b60;
+        }
+
+        /* Efeitos de partículas para celebração */
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: #e91e63;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: particle-float linear infinite;
+        }
+
+        @keyframes particle-float {
+            0% {
+                transform: translate(0, 0);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty));
+                opacity: 0;
+            }
         }
     </style>
 </head>
@@ -795,6 +937,19 @@
             <h1>Encontre o Caminho para o Meu Coração</h1>
             <p class="maze-instructions">Use as setas do teclado para mover o coração roxo até o coração verde</p>
             <div id="maze"></div>
+            <!-- Controles para dispositivos móveis -->
+            <div class="mobile-controls">
+                <div></div>
+                <div class="control-btn" id="up-btn">↑</div>
+                <div></div>
+                <div class="control-btn" id="left-btn">←</div>
+                <div></div>
+                <div class="control-btn" id="right-btn">→</div>
+                <div></div>
+                <div class="control-btn" id="down-btn">↓</div>
+                <div></div>
+            </div>
+            <div class="hint">Dica: Encontre o caminho através do labirinto para chegar ao coração verde.</div>
             <div id="maze-message" class="hidden">
                 <h2>Que bom que cruzamos nossos destinos ❤️</h2>
                 <p class="transition-message">Nosso amor é como um quebra-cabeça perfeito...</p>
@@ -808,6 +963,7 @@
             <p class="maze-instructions">Encontre as palavras que descrevem o que sinto por você</p>
             <div class="word-list" id="word-list"></div>
             <div class="word-search-grid" id="word-search-grid"></div>
+            <div class="hint">Dica: Selecione a primeira e a última letra de cada palavra para encontrá-la.</div>
             <div id="word-search-message" class="hidden">
                 <h2>Você encontrou todas as palavras que descrevem o que sinto por você ❤️</h2>
                 <p class="transition-message">Cada palavra é um pedaço do meu coração...</p>
@@ -821,6 +977,7 @@
             <div class="hangman-heart" id="hangman-heart"></div>
             <div class="word-display" id="word-display"></div>
             <div class="keyboard" id="keyboard"></div>
+            <div class="hint">Dica: Cada letra correta revela uma parte do coração. A mensagem é algo especial sobre nós.</div>
             <div id="hangman-message" class="hidden">
                 <h2>Você descobriu! Você me faz feliz todos os dias ❤️</h2>
                 <p class="transition-message">E agora vamos jogar pelo meu coração...</p>
@@ -832,11 +989,20 @@
         <div id="tic-tac-toe" class="card hidden">
             <h1>Jogo da Velha</h1>
             <div id="ttt-board" class="ttt-board"></div>
+            <div class="hint">Dica: Você joga com os corações. Forme uma linha, coluna ou diagonal para ganhar.</div>
             <div id="ttt-message" class="hidden">
                 <h2>Você ganhou meu coração ❤️</h2>
                 <p class="transition-message">Chegou o momento mais importante...</p>
                 <button id="ttt-next-btn" class="next-btn">Próximo Passo</button>
             </div>
+        </div>
+
+        <!-- Tela da Pergunta do Milhão -->
+        <div id="million-question" class="card hidden">
+            <div class="heart-icon">❤️</div>
+            <h1>Já que você ganhou o jogo do meu coração...</h1>
+            <p class="transition-message">Aqui vai uma pergunta de um milhão:</p>
+            <button id="million-question-btn" class="next-btn">Revelar Pergunta</button>
         </div>
 
         <!-- Jogo 5: Pedido de Namoro -->
@@ -885,13 +1051,20 @@
         </div>
     </div>
     
+    <!-- Container para partículas de celebração -->
+    <div class="particles-container" id="particles-container"></div>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Detectar se é um dispositivo móvel
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
             // Elementos comuns
             const mazeGame = document.getElementById('maze-game');
             const wordSearch = document.getElementById('word-search');
             const hangman = document.getElementById('hangman');
             const ticTacToe = document.getElementById('tic-tac-toe');
+            const millionQuestion = document.getElementById('million-question');
             const proposal = document.getElementById('proposal');
             const result = document.getElementById('result');
             const calendarContainer = document.getElementById('calendar-container');
@@ -933,6 +1106,7 @@
             const wordSearchNextBtn = document.getElementById('word-search-next-btn');
             const hangmanNextBtn = document.getElementById('hangman-next-btn');
             const tttNextBtn = document.getElementById('ttt-next-btn');
+            const millionQuestionBtn = document.getElementById('million-question-btn');
             const heartNextBtn = document.getElementById('heart-next-btn');
             
             // Botões do pedido de namoro
@@ -993,8 +1167,8 @@
                 }
             }
             
-                // Mover o jogador no labirinto
-                function movePlayer(dx, dy) {
+            // Mover o jogador no labirinto
+            function movePlayer(dx, dy) {
                 const newX = playerPosition.x + dx;
                 const newY = playerPosition.y + dy;
                 
@@ -1015,6 +1189,7 @@
                     }
                 }
             }
+            
             // Controles do teclado para o labirinto
             document.addEventListener('keydown', function(event) {
                 // Só processar teclas se o jogo do labirinto estiver visível
@@ -1039,6 +1214,33 @@
                     }
                 }
             });
+            
+            // Controles para dispositivos móveis
+            if (isMobile) {
+                document.getElementById('up-btn').addEventListener('click', function() {
+                    if (!mazeGame.classList.contains('hidden') && mazeMessage.classList.contains('hidden')) {
+                        movePlayer(0, -1);
+                    }
+                });
+                
+                document.getElementById('down-btn').addEventListener('click', function() {
+                    if (!mazeGame.classList.contains('hidden') && mazeMessage.classList.contains('hidden')) {
+                        movePlayer(0, 1);
+                    }
+                });
+                
+                document.getElementById('left-btn').addEventListener('click', function() {
+                    if (!mazeGame.classList.contains('hidden') && mazeMessage.classList.contains('hidden')) {
+                        movePlayer(-1, 0);
+                    }
+                });
+                
+                document.getElementById('right-btn').addEventListener('click', function() {
+                    if (!mazeGame.classList.contains('hidden') && mazeMessage.classList.contains('hidden')) {
+                        movePlayer(1, 0);
+                    }
+                });
+            }
             
             // Configuração do caça-palavras
             const wordSearchGrid = document.getElementById('word-search-grid');
@@ -1278,7 +1480,7 @@
                     // Verificar se todas as palavras foram encontradas
                     if (foundWords.length === words.length) {
                         wordSearchMessage.classList.remove('hidden');
-                        updateProgress(1);
+                        updateProgress(2);
                     }
                 } else {
                     // Verificar se a palavra invertida está na lista
@@ -1301,7 +1503,7 @@
                         // Verificar se todas as palavras foram encontradas
                         if (foundWords.length === words.length) {
                             wordSearchMessage.classList.remove('hidden');
-                            updateProgress(1);
+                            updateProgress(2);
                         }
                     }
                 }
@@ -1473,7 +1675,7 @@
                     // Mostrar mensagem de vitória
                     setTimeout(() => {
                         hangmanMessage.classList.remove('hidden');
-                        updateProgress(2);
+                        updateProgress(3);
                         
                         // Rolagem automática para o botão
                         hangmanNextBtn.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -1516,7 +1718,7 @@
                     if (checkWinner('heart')) {
                         tttGameActive = false;
                         tttMessage.classList.remove('hidden');
-                        updateProgress(3);
+                        updateProgress(4);
                         return;
                     }
                     
@@ -1672,6 +1874,46 @@
                 return emptyCells;
             }
             
+            // Função para criar confetes na tela da pergunta do milhão
+            function createConfetti() {
+                const container = document.getElementById('particles-container');
+                container.innerHTML = '';
+                
+                const colors = ['#e91e63', '#f8bbd0', '#ff94c2', '#d81b60', '#f06292'];
+                
+                for (let i = 0; i < 100; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    
+                    // Tamanho aleatório
+                    const size = Math.random() * 10 + 5;
+                    confetti.style.width = `${size}px`;
+                    confetti.style.height = `${size}px`;
+                    
+                    // Posição inicial aleatória
+                    const left = Math.random() * 100;
+                    confetti.style.left = `${left}%`;
+                    
+                    // Cor aleatória
+                    const colorIndex = Math.floor(Math.random() * colors.length);
+                    confetti.style.backgroundColor = colors[colorIndex];
+                    
+                    // Forma aleatória
+                    if (Math.random() > 0.5) {
+                        confetti.style.borderRadius = '50%';
+                    } else {
+                        confetti.style.borderRadius = '0';
+                    }
+                    
+                    // Duração e atraso aleatórios
+                    const duration = Math.random() * 3 + 2;
+                    const delay = Math.random() * 5;
+                    confetti.style.animation = `confetti-fall ${duration}s ${delay}s linear forwards`;
+                    
+                    container.appendChild(confetti);
+                }
+            }
+            
             // Configuração do pedido de namoro
             // Crie um contêiner para o botão "Não" quando ele começar a fugir
             const buttonContainer = document.createElement('div');
@@ -1701,6 +1943,20 @@
                 // Posicione o botão em um local aleatório
                 moveButtonToRandomPosition();
             });
+            
+            // Para dispositivos móveis, adicione evento de toque
+            if (isMobile) {
+                noButton.addEventListener('touchstart', function(e) {
+                    e.preventDefault(); // Prevenir comportamento padrão
+                    if (!isRunning) {
+                        buttonContainer.appendChild(noButton);
+                        noButton.style.position = 'absolute';
+                        noButton.style.pointerEvents = 'auto';
+                        isRunning = true;
+                    }
+                    moveButtonToRandomPosition();
+                });
+            }
             
             function moveButtonToRandomPosition() {
                 // Obtenha as dimensões da janela visível
@@ -1878,8 +2134,13 @@
             
             tttNextBtn.addEventListener('click', function() {
                 ticTacToe.classList.add('hidden');
+                millionQuestion.classList.remove('hidden');
+                createConfetti();
+            });
+            
+            millionQuestionBtn.addEventListener('click', function() {
+                millionQuestion.classList.add('hidden');
                 proposal.classList.remove('hidden');
-                updateProgress(4);
             });
             
             heartNextBtn.addEventListener('click', function() {
@@ -1895,3 +2156,4 @@
     </script>
 </body>
 </html>
+
