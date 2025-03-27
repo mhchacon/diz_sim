@@ -286,7 +286,14 @@
       #hangman-message.hidden .next-btn {
           display: none;
       }
-
+      #hangman-message:not(.hidden) {
+            display: flex; /* Mostra quando não tiver a classe hidden */
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 20px;
+            margin-top: 20px;
+      }
       #hangman-message:not(.hidden) .next-btn {
           display: block;
       }
@@ -357,7 +364,7 @@
       }
 
       #hangman-message {
-          display: flex;
+          display: none;
           flex-direction: column;
           align-items: center;
           text-align: center;
@@ -531,7 +538,7 @@
           margin: 0 auto 20px;
           position: relative;
       }
-
+      
       .heart-piece {
           position: absolute;
           background-color: #ffcdd2;
@@ -1812,23 +1819,22 @@
           
           // Inicializar o jogo da forca
           function initHangman() {
-              // Limpar estados anteriores
-              guessedLetters = [];
-              
-              // Resetar a mensagem e o botão
-              hangmanMessage.classList.add('hidden');
-              hangmanNextBtn.style.display = 'block';
-              hangmanNextBtn.style.pointerEvents = 'auto';
-              
-              // Criar o coração
-              createHeartPieces();
-              
-              // Renderizar a palavra
-              renderWordDisplay();
-              
-              // Renderizar o teclado
-              renderKeyboard();
-          }
+            // Limpar estados anteriores
+            guessedLetters = [];
+            
+            // Resetar a mensagem e o botão
+            hangmanMessage.classList.add('hidden');
+            hangmanNextBtn.style.display = 'none'; // Esconder o botão inicialmente
+            
+            // Criar o coração
+            createHeartPieces();
+            
+            // Renderizar a palavra
+            renderWordDisplay();
+            
+            // Renderizar o teclado
+            renderKeyboard();
+        }
           
           // Criar as peças do coração
           function createHeartPieces() {
@@ -1919,60 +1925,50 @@
           
           // Adivinhar uma letra
           function guessLetter(letter) {
-              if (guessedLetters.includes(letter)) {
-                  return;
-              }
-              
-              guessedLetters.push(letter);
-              
-              // Verificar se a letra está na frase
-              if (hangmanPhrase.includes(letter)) {
-                  // Revelar uma parte do coração
-                  const unrevealedPieces = heartPieces.filter(piece => !piece.classList.contains('revealed'));
-                  if (unrevealedPieces.length > 0) {
-                      const randomIndex = Math.floor(Math.random() * unrevealedPieces.length);
-                      unrevealedPieces[randomIndex].classList.add('revealed');
-                  }
-              }
-              
-              // Atualizar a exibição da palavra
-              renderWordDisplay();
-              
-              // Atualizar o teclado
-              renderKeyboard();
-              
-              // Verificar se o jogador ganhou
-              checkHangmanWin();
-          }
+            if (guessedLetters.includes(letter)) return;
+            
+            guessedLetters.push(letter);
+            
+            // Atualiza a interface
+            renderWordDisplay();
+            renderKeyboard();
+            
+            // Verifica se acertou alguma letra
+            if (hangmanPhrase.includes(letter)) {
+                // Revela uma parte aleatória do coração ainda não revelada
+                const unrevealed = heartPieces.filter(p => !p.classList.contains('revealed'));
+                if (unrevealed.length > 0) {
+                    const randomPiece = unrevealed[Math.floor(Math.random() * unrevealed.length)];
+                    randomPiece.classList.add('revealed');
+                }
+            }
+            
+            // Só verifica vitória depois de processar tudo
+            checkHangmanWin();
+        }
           
           // Modifique a função checkHangmanWin para:
           function checkHangmanWin() {
-              let allLettersGuessed = true;
-              
-              for (let i = 0; i < hangmanPhrase.length; i++) {
-                  const letter = hangmanPhrase[i];
-                  if (letter !== ' ' && !guessedLetters.includes(letter)) {
-                      allLettersGuessed = false;
-                      break;
-                  }
-              }
-              
-              if (allLettersGuessed) {
-                  // Revelar todas as partes do coração
-                  heartPieces.forEach(piece => {
-                      piece.classList.add('revealed');
-                  });
-                  
-                  // Mostrar mensagem de vitória
-                  setTimeout(() => {
-                      hangmanMessage.classList.remove('hidden');
-                      updateProgress(3);
-                      
-                      // Rolagem automática para o botão
-                      hangmanNextBtn.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                  }, 500);
-              }
-          }
+            // Verificar se todas as letras não-espaço foram adivinhadas
+            const allLettersGuessed = Array.from(hangmanPhrase).every(letter => 
+                letter === ' ' || guessedLetters.includes(letter)
+            );
+
+            if (allLettersGuessed) {
+                // Primeiro revela todas as peças do coração
+                heartPieces.forEach(piece => piece.classList.add('revealed'));
+                
+                // Depois de um pequeno delay, mostra a mensagem
+                setTimeout(() => {
+                    hangmanMessage.classList.remove('hidden');
+                    hangmanNextBtn.style.display = 'block';
+                    updateProgress(3);
+                    
+                    // Rolagem suave para o botão
+                    hangmanNextBtn.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                }, 1000); // 1 segundo de delay para dar tempo da animação
+            }
+        }
 
           
           // Inicializar o jogo da velha
@@ -2474,4 +2470,3 @@
   </script>
 </body>
 </html>
-
