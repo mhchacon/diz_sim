@@ -1133,6 +1133,21 @@
               opacity: 0;
           }
       }
+
+/* Make game containers scrollable */
+#maze-game, #word-search, #hangman, #tic-tac-toe, #million-question, #proposal, #result, #calendar-container {
+    max-height: 90vh;
+    overflow-y: auto;
+    padding-bottom: 30px;
+}
+
+/* Ensure messages are visible */
+#maze-message, #word-search-message, #ttt-message {
+    position: relative;
+    z-index: 5;
+    margin-top: 20px;
+    padding-bottom: 20px;
+}
   </style>
 </head>
 <body>
@@ -1285,6 +1300,10 @@
               <span>💚</span>
               <span>💜</span>
           </div>
+<button id="playlist-btn" class="next-btn">Nossa Playlist</button>
+<div id="spotify-player" class="hidden" style="margin-top: 20px; width: 100%;">
+    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/5oavY5iBL9FSEMdm7tVvIW?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+</div>
       </div>
   </div>
   
@@ -1452,12 +1471,12 @@
                       
                       if (x === playerPosition.x && y === playerPosition.y) {
                           cell.classList.add('maze-player');
-                          cell.innerHTML = '❤️';
+                          cell.innerHTML = '💜';
                       }
                       
                       if (x === goalPosition.x && y === goalPosition.y) {
                           cell.classList.add('maze-goal');
-                          cell.innerHTML = '❤️';
+                          cell.innerHTML = '💚';
                       }
                       
                       maze.appendChild(cell);
@@ -2392,11 +2411,21 @@
               
               // Adicionar mensagem após um atraso
               setTimeout(() => {
-                  calendarMessage.textContent = 'nosso dia pra sempre 💚💜';
+                  calendarMessage.textContent = 'nosso dia pra sempre!!';
                   calendarMessage.style.opacity = '1';
               }, 2000);
           }
           
+// Playlist button functionality
+const playlistBtn = document.getElementById('playlist-btn');
+const spotifyPlayer = document.getElementById('spotify-player');
+
+playlistBtn.addEventListener('click', function() {
+    spotifyPlayer.classList.toggle('hidden');
+    if (!spotifyPlayer.classList.contains('hidden')) {
+        spotifyPlayer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+});
           // Navegação entre os jogos
           mazeNextBtn.addEventListener('click', function() {
               mazeGame.classList.add('hidden');
@@ -2470,3 +2499,4 @@
   </script>
 </body>
 </html>
+
